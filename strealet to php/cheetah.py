@@ -1,9 +1,10 @@
 import streamlit as st
 import openai
 from newspaper import Article
+import os  # For accessing environment variables
 
-# Set your OpenAI API key here
-openai.api_key = "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"
+# Set your OpenAI API key using an environment variable
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def fetch_article(url):
     """Fetch and parse the article using the Newspaper library."""
@@ -107,7 +108,7 @@ if st.button("Generate Article"):
                 # Generate meta description
                 meta_description = generate_meta_description(enhanced_content)
                 
-                # Prepare HTML Output with Meta Tags (focus keyphrase is NOT included here)
+                # Prepare HTML Output with Meta Tags
                 html_output = f"""
                 <!DOCTYPE html>
                 <html lang="en">
@@ -134,13 +135,13 @@ if st.button("Generate Article"):
                 
                 # Display Results
                 st.subheader("Generated Title")
-                st.write(title)  # Title (without number)
+                st.write(title)
                 st.subheader("Slug")
                 st.write(slug)
                 st.subheader("Focus Keyphrase")
-                st.write(focus_keyphrase)  # Display the focus keyphrase in Streamlit UI
+                st.write(focus_keyphrase)
                 st.subheader("Tags")
-                st.write(tags)  # Display the tags in Streamlit UI
+                st.write(tags)
                 st.subheader("HTML Content with Meta Tags")
                 st.code(html_output, language="html")
                 st.subheader("Meta Description (Plain Text)")
